@@ -12,7 +12,7 @@
   <body>
     <div class="main">
       <div class="ad"><p class="microsoft marquee"><span>This should move and repeat. <a href="http://www.yahoo.com">External Link</a></span></p></div>
-      <video preload="none" id="player" autoplay crossorigin></video>
+      <video preload="none" id="player" crossorigin></video>
   </div>
     <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
     <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script>
@@ -46,15 +46,18 @@
 
   }
   div.ad{
-    position: fixed;
+    position: absolute;
+    top: 0;
     left: 0;
-    z-index: 99999;
+    right: 0;
+    color: white;
+    font-size: .8em;
     width: 100%;
-    background-color: rgba(0,0,0,0.5);
-    float:left;
-    color: #fff;
-    font-weight: bold;
-    font-family: Helvetica,Arial;
+    min-height: 40px;
+    padding: 10px 5px;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 2147483647;
   }
 
 
@@ -86,9 +89,11 @@
     100% { transform: translate(-100%, 0); }
 }
 
+/*
 .plyr__controls{
   display: none !important;
 }
+*/
 
 .plyr audio, .plyr video{
   height: 100% !important;
