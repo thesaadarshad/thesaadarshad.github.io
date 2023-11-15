@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="left empty deliberately ">
-    <meta name="keywords" content="Saad Arshad. thesaadarshad">
+    <meta name="keywords" content="Saad Arshad. thesaadarshad. thesaadarshad@gmail.com">
     <meta name="author" content="Saad Arshad">
 
     <title>//remember</title>
@@ -13,9 +13,8 @@
         body {
             margin: 0;
             padding: 0;
-            background-image: url('bg.jpg');
             background-size: cover;
-            background-position: center;
+            background-position: top;
             font-family: Arial, sans-serif;
             color: white;
         }
@@ -37,6 +36,19 @@
             font-size: 0.8em;
         }
     </style>
+    <script>
+        // Array of background images
+        var backgroundImages = ['bg.jpg', 'bg2.jpeg', 'bg3.jpeg'];
+
+        // Function to set a random background image
+        function setRandomBackground() {
+            var randomIndex = Math.floor(Math.random() * backgroundImages.length);
+            document.body.style.backgroundImage = 'url(' + backgroundImages[randomIndex] + ')';
+        }
+
+        // Call setRandomBackground function on page load
+        window.onload = setRandomBackground;
+    </script>
 </head>
 <body>
 
@@ -45,7 +57,7 @@
     </div>
 
     <div id="footer">
-        <p>wait for it</p>
+        <p>it has been lovely knowing you.</p>
     </div>
 
 </body>
