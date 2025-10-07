@@ -3,65 +3,792 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="left empty deliberately ">
-    <meta name="keywords" content="Saad Arshad. thesaadarshad. thesaadarshad@gmail.com">
-    <meta name="author" content="Saad Arshad">
-
-    <title>//remember</title>
-
+    <title>Saad Arshad - Matrix Resume</title>
     <style>
+        /* Matrix Terminal Resume Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-              margin: 0;
-              padding: 0;
-              background-size: auto auto;
-              background-position: right;
-              font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma, sans-serif;
-              color: white;
-              background-repeat: no-repeat;
-              background-attachment: fixed;
-              background-size: cover;
+            font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+            background: #000;
+            color: #00ff00;
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.4;
+            font-size: 14px;
+            text-shadow: 0 0 5px #00ff00;
         }
 
-        #main-content {
-            text-align: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        #footer {
+        .matrix-bg {
             position: fixed;
-            bottom: 0;
+            top: 0;
+            left: 0;
             width: 100%;
-            text-align: center;
-            color: #ccc;
-            font-size: 0.8em;
+            height: 100%;
+            z-index: -1;
+            background: #000;
+        }
+
+        #matrix-canvas {
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            z-index: 1;
+            background: #000;
+            min-height: 100vh;
+            border: 2px solid #00ff00;
+            box-shadow: inset 0 0 20px #00ff00;
+        }
+
+        /* Terminal Header Styles */
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #00ff00;
+            background: #000;
+            font-family: 'Courier New', monospace;
+        }
+
+        .terminal-prompt {
+            color: #00ff00;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .glitch {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #00ff00;
+            margin: 5px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .status-line {
+            color: #00ff00;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00ff00;
+            margin-right: 5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .status-text {
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Terminal Section Styles */
+        .main-content {
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+            font-family: 'Courier New', monospace;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 5px;
+        }
+
+        .bracket {
+            color: #00ff00;
+            font-size: 1.2rem;
+        }
+
+        .content-box {
+            background: #000;
+            border: none;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: visible;
+            border-left: 2px solid #00ff00;
+            padding-left: 15px;
+        }
+
+        .content-box::before {
+            display: none;
+        }
+
+        /* About Section */
+        .matrix-text {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            color: #00ff00;
+        }
+
+        .success {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .description {
+            font-size: 12px;
+            line-height: 1.4;
+            color: #00ff00;
+            margin-top: 10px;
+        }
+
+        /* Skills Section */
+        .skill-grid {
+            display: block;
+            gap: 0;
+        }
+
+        .skill-category {
+            margin-bottom: 20px;
+        }
+
+        .skill-category h3 {
+            color: #00ff00;
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 5px #00ff00;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .skill-items {
+            display: block;
+            gap: 0;
+        }
+
+        .skill-tag {
+            background: #000;
+            border: none;
+            padding: 2px 8px;
+            font-size: 11px;
+            color: #00ff00;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .skill-tag:hover {
+            background: #000;
+            box-shadow: 0 0 5px #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        /* Experience Section */
+        .timeline {
+            position: relative;
+        }
+
+        .timeline::before {
+            display: none;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 0;
+            border-left: 2px solid #00ff00;
+            padding-left: 10px;
+        }
+
+        .timeline-marker {
+            display: none;
+        }
+
+        .timeline-content h3 {
+            color: #00ff00;
+            font-size: 12px;
+            margin-bottom: 3px;
+            text-shadow: 0 0 5px #00ff00;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .company {
+            color: #00ff00;
+            font-size: 11px;
+            margin-bottom: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .period {
+            color: #00ff00;
+            font-size: 10px;
+            margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timeline-content p {
+            color: #00ff00;
+            line-height: 1.4;
+            font-size: 11px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: block;
+            gap: 0;
+        }
+
+        .contact-item {
+            display: block;
+            align-items: center;
+            gap: 0;
+            padding: 5px 0;
+            background: #000;
+            border: none;
+            transition: all 0.3s ease;
+            margin-bottom: 5px;
+        }
+
+        .contact-item:hover {
+            background: #000;
+            box-shadow: none;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .contact-label {
+            color: #00ff00;
+            font-weight: bold;
+            min-width: 0;
+            font-size: 11px;
+            font-family: 'Courier New', monospace;
+            display: inline;
+        }
+
+        .contact-value {
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 20px;
+            padding: 20px;
+            border-top: 1px solid #00ff00;
+            background: #000;
+        }
+
+        .terminal-line {
+            margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .prompt {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .command {
+            color: #00ff00;
+            margin: 0 5px;
+        }
+
+        .output {
+            color: #00ff00;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00cc00;
+        }
+
+        /* Additional animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
         }
     </style>
-    <script>
-        // Array of background images
-        var backgroundImages = ['bg.jpg', 'bg2.jpeg', 'bg3.jpeg'];
-
-        // Function to set a random background image
-        function setRandomBackground() {
-            var randomIndex = Math.floor(Math.random() * backgroundImages.length);
-            document.body.style.backgroundImage = 'url(' + backgroundImages[randomIndex] + ')';
-        }
-
-        // Call setRandomBackground function on page load
-        window.onload = setRandomBackground;
-    </script>
 </head>
 <body>
+    <div class="matrix-bg">
+        <canvas id="matrix-canvas"></canvas>
+    </div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="terminal-prompt">root@matrix:~$ cat /etc/profile</div>
+            <div class="terminal-prompt">Loading system profile...</div>
+            <div class="glitch" data-text="SAAD ARSHAD">SAAD ARSHAD</div>
+            <div class="subtitle">SR. SITE RELIABILITY ENGINEER @ UPWORK | PROMPT ENGINEER</div>
+            <div class="terminal-prompt">Initializing user session...</div>
+            <div class="status-line">
+                <span class="status-indicator"></span>
+                <span class="status-text">STATUS: ONLINE</span>
+            </div>
+            <div class="terminal-prompt">Welcome to the Matrix. Type 'help' for available commands.</div>
+        </header>
 
-    <div id="main-content">
-        <h1>//remember</h1>
+        <main class="main-content">
+            <section class="about">
+                <h2 class="section-title">
+                    <span class="bracket">[</span>
+                    ABOUT
+                    <span class="bracket">]</span>
+                </h2>
+                <div class="content-box">
+                    <div class="terminal-prompt">root@matrix:~$ whoami</div>
+                    <div class="matrix-text">
+                        > INITIALIZING PROFILE...<br>
+                        > LOADING SKILLS MATRIX...<br>
+                        > CONNECTING TO NETWORK...<br>
+                        <span class="success">✓ SYSTEM READY</span>
+                    </div>
+                    <div class="terminal-prompt">root@matrix:~$ cat about.txt</div>
+                    <div class="description">
+                        Senior YAML engineer with 10+ years of experience in software field. 
+                        Expert in Python, Kubernetes, Docker, Kafka, Elasticsearch, Terraform 
+                        and cloud automation. Certified CKA (Certified Kubernetes Administrator) 
+                        specializing in maintaining tech-clouds and preventing cost thunderstorms.
+                    </div>
+                </div>
+            </section>
+
+            <section class="skills">
+                <h2 class="section-title">
+                    <span class="bracket">[</span>
+                    SKILLS
+                    <span class="bracket">]</span>
+                </h2>
+                <div class="content-box">
+                    <div class="terminal-prompt">root@matrix:~$ ls -la /usr/bin/ | grep -E "(frontend|backend|devops|tools)"</div>
+                    <div class="skill-grid">
+                        <div class="skill-category">
+                            <h3>CLOUD & INFRASTRUCTURE:</h3>
+                            <div class="skill-items">
+                                <span class="skill-tag">AWS</span>
+                                <span class="skill-tag">Kubernetes</span>
+                                <span class="skill-tag">Docker</span>
+                                <span class="skill-tag">Terraform</span>
+                                <span class="skill-tag">ArgoCD</span>
+                                <span class="skill-tag">ECS</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3>MONITORING & LOGGING:</h3>
+                            <div class="skill-items">
+                                <span class="skill-tag">OpenSearch</span>
+                                <span class="skill-tag">Elasticsearch</span>
+                                <span class="skill-tag">Kafka</span>
+                                <span class="skill-tag">Sensu</span>
+                                <span class="skill-tag">SRE Dashboards</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3>PROGRAMMING:</h3>
+                            <div class="skill-items">
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">YAML</span>
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">PHP</span>
+                                <span class="skill-tag">Node.js</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3>DEVOPS TOOLS:</h3>
+                            <div class="skill-items">
+                                <span class="skill-tag">Ansible</span>
+                                <span class="skill-tag">Jenkins</span>
+                                <span class="skill-tag">Chef</span>
+                                <span class="skill-tag">Git</span>
+                                <span class="skill-tag">Linux</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="experience">
+                <h2 class="section-title">
+                    <span class="bracket">[</span>
+                    EXPERIENCE
+                    <span class="bracket">]</span>
+                </h2>
+                <div class="content-box">
+                    <div class="terminal-prompt">root@matrix:~$ cat /var/log/experience.log</div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h3>SENIOR DEVOPS ENGINEER</h3>
+                                <div class="company">Upwork</div>
+                                <div class="period">Feb 2025 - Present (9 months)</div>
+                                <p>Maintaining Log Pipeline @ Scale. Daily toolset: Python, AWS, Terraform, ArgoCD, Kubernetes, Kafka, OpenSearch and Chef.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h3>SR. CLOUD OPERATIONS & AUTOMATION ENGINEER</h3>
+                                <div class="company">Upwork</div>
+                                <div class="period">Oct 2023 - Apr 2025 (1 year 7 months)</div>
+                                <p>Maintain tech-clouds and prevent cost thunderstorms. Daily work: AWS, Terraform, Kubernetes, Argo, Kafka, Elasticsearch and reliability.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h3>SENIOR SITE RELIABILITY ENGINEER II | CLOUD ENGINEER</h3>
+                                <div class="company">Careem</div>
+                                <div class="period">Dec 2018 - Dec 2023 (5 years 1 month)</div>
+                                <p>SRE, Cloud Infrastructures, Kubernetes, and a whole lot of Automation.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h3>LEAD DEVOPS ENGINEER | SR. SOFTWARE ENGINEER</h3>
+                                <div class="company">Gaditek</div>
+                                <div class="period">Jun 2016 - Dec 2018 (2 years 7 months)</div>
+                                <p>Server Orchestration, Configuration, Automation and Deployment using Ansible. Architecture Designing and Scaling.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h3>LEAD SOFTWARE ENGINEER</h3>
+                                <div class="company">Nanosoft Technologies</div>
+                                <div class="period">Nov 2011 - May 2016 (4 years 7 months)</div>
+                                <p>Developed and launched Taskque, a complete task management SaaS product. High-scale SQL and NoSQL databases, MEAN stack development.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="contact">
+                <h2 class="section-title">
+                    <span class="bracket">[</span>
+                    CONTACT
+                    <span class="bracket">]</span>
+                </h2>
+                <div class="content-box">
+                    <div class="terminal-prompt">root@matrix:~$ cat /etc/contact</div>
+                    <div class="contact-grid">
+                        <div class="contact-item">
+                            <span class="contact-label">EMAIL:</span>
+                            <span class="contact-value">thesaadarshad@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">LOCATION:</span>
+                            <span class="contact-value">Karachi, Pakistan</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">LINKEDIN:</span>
+                            <span class="contact-value">linkedin.com/in/saadarshad</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">CERTIFICATION:</span>
+                            <span class="contact-value">CKA: Certified Kubernetes Administrator</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="terminal-line">
+                <span class="prompt">root@matrix:~$</span>
+                <span class="command">whoami</span>
+                <span class="output">saad_arshad</span>
+            </div>
+            <div class="terminal-line">
+                <span class="prompt">root@matrix:~$</span>
+                <span class="command">kubectl get pods -A | grep running</span>
+                <span class="output">All systems operational. Ready for the next challenge...</span>
+            </div>
+        </footer>
     </div>
 
-    <div id="footer">
-        <p>it has been lovely knowing you.</p>
-    </div>
+    <script>
+        // Matrix Digital Rain Effect
+        class MatrixRain {
+            constructor() {
+                this.canvas = document.getElementById('matrix-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+                this.fontSize = 14;
+                this.columns = 0;
+                this.drops = [];
+                
+                this.init();
+                this.animate();
+                this.handleResize();
+            }
+            
+            init() {
+                this.resizeCanvas();
+                this.setupColumns();
+                this.setupDrops();
+            }
+            
+            resizeCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            
+            setupColumns() {
+                this.columns = Math.floor(this.canvas.width / this.fontSize);
+            }
+            
+            setupDrops() {
+                this.drops = new Array(this.columns).fill(1);
+            }
+            
+            draw() {
+                // Semi-transparent black background for trail effect
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Set font and color
+                this.ctx.font = `${this.fontSize}px monospace`;
+                this.ctx.fillStyle = '#00ff00';
+                
+                // Draw characters
+                for (let i = 0; i < this.drops.length; i++) {
+                    const char = this.characters[Math.floor(Math.random() * this.characters.length)];
+                    const x = i * this.fontSize;
+                    const y = this.drops[i] * this.fontSize;
+                    
+                    // Add some variation to the green color
+                    const opacity = Math.random() * 0.8 + 0.2;
+                    this.ctx.fillStyle = `rgba(0, 255, 0, ${opacity})`;
+                    
+                    this.ctx.fillText(char, x, y);
+                    
+                    // Reset drop to top randomly
+                    if (y > this.canvas.height && Math.random() > 0.975) {
+                        this.drops[i] = 0;
+                    }
+                    
+                    this.drops[i]++;
+                }
+            }
+            
+            animate() {
+                this.draw();
+                requestAnimationFrame(() => this.animate());
+            }
+            
+            handleResize() {
+                window.addEventListener('resize', () => {
+                    this.resizeCanvas();
+                    this.setupColumns();
+                    this.setupDrops();
+                });
+            }
+        }
 
+        // Glitch effect for text
+        class GlitchEffect {
+            constructor(element) {
+                this.element = element;
+                this.originalText = element.textContent;
+                this.glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+                this.isGlitching = false;
+                
+                this.init();
+            }
+            
+            init() {
+                this.element.addEventListener('mouseenter', () => this.startGlitch());
+                this.element.addEventListener('mouseleave', () => this.stopGlitch());
+            }
+            
+            startGlitch() {
+                if (this.isGlitching) return;
+                
+                this.isGlitching = true;
+                this.glitchInterval = setInterval(() => {
+                    this.glitchText();
+                }, 100);
+            }
+            
+            stopGlitch() {
+                this.isGlitching = false;
+                clearInterval(this.glitchInterval);
+                this.element.textContent = this.originalText;
+            }
+            
+            glitchText() {
+                let glitchedText = '';
+                for (let i = 0; i < this.originalText.length; i++) {
+                    if (Math.random() < 0.1) {
+                        glitchedText += this.glitchChars[Math.floor(Math.random() * this.glitchChars.length)];
+                    } else {
+                        glitchedText += this.originalText[i];
+                    }
+                }
+                this.element.textContent = glitchedText;
+            }
+        }
+
+        // Terminal typing effect
+        class TerminalTyping {
+            constructor() {
+                this.terminalLines = document.querySelectorAll('.terminal-line');
+                this.init();
+            }
+            
+            init() {
+                this.terminalLines.forEach((line, index) => {
+                    this.typeText(line, index * 1000);
+                });
+            }
+            
+            typeText(element, delay) {
+                setTimeout(() => {
+                    const text = element.textContent;
+                    element.textContent = '';
+                    element.style.opacity = '1';
+                    
+                    let i = 0;
+                    const typeInterval = setInterval(() => {
+                        if (i < text.length) {
+                            element.textContent += text.charAt(i);
+                            i++;
+                        } else {
+                            clearInterval(typeInterval);
+                        }
+                    }, 50);
+                }, delay);
+            }
+        }
+
+        // Skill tag hover effects
+        class SkillEffects {
+            constructor() {
+                this.skillTags = document.querySelectorAll('.skill-tag');
+                this.init();
+            }
+            
+            init() {
+                this.skillTags.forEach(tag => {
+                    tag.addEventListener('mouseenter', () => this.addPulseEffect(tag));
+                    tag.addEventListener('mouseleave', () => this.removePulseEffect(tag));
+                });
+            }
+            
+            addPulseEffect(tag) {
+                tag.style.animation = 'pulse 0.5s infinite';
+            }
+            
+            removePulseEffect(tag) {
+                tag.style.animation = '';
+            }
+        }
+
+        // Initialize all effects when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start Matrix rain effect
+            new MatrixRain();
+            
+            // Add glitch effects to section titles
+            const sectionTitles = document.querySelectorAll('.section-title');
+            sectionTitles.forEach(title => new GlitchEffect(title));
+            
+            // Initialize terminal typing effect
+            new TerminalTyping();
+            
+            // Initialize skill effects
+            new SkillEffects();
+            
+            // Add some random matrix-style effects
+            setInterval(() => {
+                const elements = document.querySelectorAll('.content-box');
+                elements.forEach(box => {
+                    if (Math.random() < 0.1) {
+                        box.style.boxShadow = '0 0 20px #00ff00';
+                        setTimeout(() => {
+                            box.style.boxShadow = '';
+                        }, 200);
+                    }
+                });
+            }, 2000);
+            
+            // Add cursor blinking effect to terminal
+            const terminalLines = document.querySelectorAll('.terminal-line');
+            terminalLines.forEach(line => {
+                const cursor = document.createElement('span');
+                cursor.textContent = '_';
+                cursor.style.animation = 'blink 1s infinite';
+                line.appendChild(cursor);
+            });
+        });
+
+        // Add some interactive elements
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('skill-tag')) {
+                // Create ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(0, 255, 0, 0.3)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = e.offsetX + 'px';
+                ripple.style.top = e.offsetY + 'px';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                
+                e.target.style.position = 'relative';
+                e.target.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            }
+        });
+    </script>
 </body>
 </html>
